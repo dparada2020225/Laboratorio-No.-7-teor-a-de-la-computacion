@@ -10,10 +10,9 @@ a mano de tres CFGs (Problema 2).
 
 ## Video de demostración
 
-> **Pendiente:** aquí va el enlace al video de YouTube (no listado, máximo 10 minutos)
-> donde se muestra la ejecución del programa del Ejercicio 1.
->
-> `https://youtu.be/PEGAR-AQUI-EL-ENLACE`
+Ejecución del programa del Ejercicio 1 (YouTube, video no listado):
+
+<https://youtu.be/gRdYiwC0fVg>
 
 ## Estructura del repositorio
 
