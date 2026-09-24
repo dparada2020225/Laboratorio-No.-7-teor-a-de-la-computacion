@@ -1,0 +1,347 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath,amssymb}
+\usepackage[margin=2.2cm]{geometry}
+\usepackage{enumitem}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5pt}
+\allowdisplaybreaks
+
+\newcommand{\eps}{\varepsilon}
+
+\title{\textbf{Ejercicio 2}\\[2pt]\large Laboratorio 7 --- Teor\'ia de la computaci\'on}
+\author{Denil Jos\'e Parada Cabrera}
+\date{}
+
+\begin{document}
+\maketitle
+
+\textbf{Convenciones.}
+\begin{itemize}[nosep]
+  \item Al eliminar las producciones-$\eps$ se eliminan \emph{todas}; si el s\'imbolo inicial es anulable, la gram\'atica resultante genera $L(G)\setminus\{\eps\}$.
+  \item Para cada producci\'on con $m$ s\'imbolos anulables se generan las $2^m$ combinaciones (quitar o conservar cada uno) y se descarta el cuerpo vac\'io.
+  \item En la gram\'atica 2, el s\'imbolo $E$ aparece en $C \to CDE$ pero no tiene producciones, as\'i que se trata como un no terminal sin producciones.
+\end{itemize}
+
+%=====================================================================
+\section*{Gram\'atica 1}
+\begin{align*}
+S &\to 0A0 \mid 1B1 \mid BB\\
+A &\to C\\
+B &\to S \mid A\\
+C &\to S \mid \eps
+\end{align*}
+
+\subsection*{a) Eliminar producciones-$\eps$}
+
+\textbf{S\'imbolos anulables.}
+\begin{itemize}[nosep]
+  \item $C \to \eps$, entonces $C$ es anulable.
+  \item $A \to C$ y $C$ anulable, entonces $A$ es anulable.
+  \item $B \to A$ y $A$ anulable, entonces $B$ es anulable.
+  \item $S \to BB$ y $B$ anulable, entonces $S$ es anulable.
+\end{itemize}
+Anulables $=\{S,A,B,C\}$.
+
+\textbf{Nuevas producciones.}
+\begin{align*}
+S \to 0A0 &:\ m=1,\ 2^1=2 \text{ casos: } 0A0,\ 00\\
+S \to 1B1 &:\ m=1,\ 2 \text{ casos: } 1B1,\ 11\\
+S \to BB  &:\ m=2,\ 2^2=4 \text{ casos: } BB,\ B,\ B,\ \eps \text{ (se descarta)}\\
+A \to C   &:\ m=1,\ 2 \text{ casos: } C,\ \eps \text{ (se descarta)}\\
+B \to S   &:\ m=1,\ 2 \text{ casos: } S,\ \eps \text{ (se descarta)}\\
+B \to A   &:\ m=1,\ 2 \text{ casos: } A,\ \eps \text{ (se descarta)}\\
+C \to S   &:\ m=1,\ 2 \text{ casos: } S,\ \eps \text{ (se descarta)}\\
+C \to \eps &:\ \text{se elimina}
+\end{align*}
+
+\textbf{Resultado a):}
+\begin{align*}
+S &\to 0A0 \mid 00 \mid 1B1 \mid 11 \mid BB \mid B\\
+A &\to C\\
+B &\to S \mid A\\
+C &\to S
+\end{align*}
+
+\subsection*{b) Eliminar producciones unitarias}
+
+Producciones unitarias: $S \to B$, $A \to C$, $B \to S$, $B \to A$, $C \to S$.
+
+Pares unitarios $(X,Y)$, es decir, $X \Rightarrow^* Y$ usando solo producciones unitarias:
+\begin{align*}
+S &: (S,S),\ (S,B),\ (S,A),\ (S,C)\\
+A &: (A,A),\ (A,C),\ (A,S),\ (A,B)\\
+B &: (B,B),\ (B,S),\ (B,A),\ (B,C)\\
+C &: (C,C),\ (C,S),\ (C,B),\ (C,A)
+\end{align*}
+
+Producciones no unitarias: solo $S$ tiene:
+$S \to 0A0 \mid 00 \mid 1B1 \mid 11 \mid BB$.
+Para cada par $(X,Y)$ se le da a $X$ las producciones no unitarias de $Y$. Como los cuatro s\'imbolos se alcanzan entre s\'i, los cuatro reciben lo mismo.
+
+\textbf{Resultado b):}
+\begin{align*}
+S &\to 0A0 \mid 00 \mid 1B1 \mid 11 \mid BB\\
+A &\to 0A0 \mid 00 \mid 1B1 \mid 11 \mid BB\\
+B &\to 0A0 \mid 00 \mid 1B1 \mid 11 \mid BB\\
+C &\to 0A0 \mid 00 \mid 1B1 \mid 11 \mid BB
+\end{align*}
+
+\subsection*{c) Eliminar s\'imbolos in\'utiles}
+
+\textbf{c.a) S\'imbolos que no producen.} Todos tienen la producci\'on $\to 00$, as\'i que $S, A, B, C$ producen cadenas de terminales. No se elimina nada.
+
+\textbf{c.b) S\'imbolos no alcanzables.} Desde $S$: $S \Rightarrow 0A0$ da $A$; $S \Rightarrow 1B1$ da $B$. El s\'imbolo $C$ no aparece en ning\'un cuerpo. Alcanzables $=\{S,A,B\}$. Se elimina $C$.
+
+\textbf{Resultado c):}
+\begin{align*}
+S &\to 0A0 \mid 00 \mid 1B1 \mid 11 \mid BB\\
+A &\to 0A0 \mid 00 \mid 1B1 \mid 11 \mid BB\\
+B &\to 0A0 \mid 00 \mid 1B1 \mid 11 \mid BB
+\end{align*}
+
+\subsection*{d) Forma Normal de Chomsky}
+
+\textbf{Paso 1: terminales en cuerpos largos.} Se agregan $X_0 \to 0$ y $X_1 \to 1$ y se sustituyen en los cuerpos de longitud $\ge 2$:
+\begin{align*}
+0A0 &\to X_0 A X_0 & 00 &\to X_0 X_0\\
+1B1 &\to X_1 B X_1 & 11 &\to X_1 X_1
+\end{align*}
+
+\textbf{Paso 2: cuerpos de longitud $>2$.} Se agregan $Y_1 \to A X_0$ y $Y_2 \to B X_1$:
+\[ X_0 A X_0 \to X_0 Y_1 \qquad X_1 B X_1 \to X_1 Y_2 \]
+
+\textbf{Resultado d) (CNF):}
+\begin{align*}
+S &\to X_0 Y_1 \mid X_0 X_0 \mid X_1 Y_2 \mid X_1 X_1 \mid BB\\
+A &\to X_0 Y_1 \mid X_0 X_0 \mid X_1 Y_2 \mid X_1 X_1 \mid BB\\
+B &\to X_0 Y_1 \mid X_0 X_0 \mid X_1 Y_2 \mid X_1 X_1 \mid BB\\
+Y_1 &\to A X_0\\
+Y_2 &\to B X_1\\
+X_0 &\to 0\\
+X_1 &\to 1
+\end{align*}
+
+%=====================================================================
+\newpage
+\section*{Gram\'atica 2}
+\begin{align*}
+S &\to aAa \mid bBb \mid \eps\\
+A &\to C \mid a\\
+B &\to C \mid b\\
+C &\to CDE \mid \eps\\
+D &\to A \mid B \mid ab
+\end{align*}
+
+\subsection*{a) Eliminar producciones-$\eps$}
+
+\textbf{S\'imbolos anulables.}
+\begin{itemize}[nosep]
+  \item $S \to \eps$ y $C \to \eps$, entonces $S$ y $C$ son anulables.
+  \item $A \to C$ y $B \to C$, entonces $A$ y $B$ son anulables.
+  \item $D \to A$, entonces $D$ es anulable.
+  \item $E$ no tiene producciones, no es anulable.
+\end{itemize}
+Anulables $=\{S,A,B,C,D\}$.
+
+\textbf{Nuevas producciones.}
+\begin{align*}
+S \to aAa  &:\ m=1,\ 2 \text{ casos: } aAa,\ aa\\
+S \to bBb  &:\ m=1,\ 2 \text{ casos: } bBb,\ bb\\
+S \to \eps &:\ \text{se elimina}\\
+A \to C    &:\ m=1,\ 2 \text{ casos: } C,\ \eps \text{ (se descarta)}\\
+A \to a    &:\ m=0,\ a\\
+B \to C    &:\ m=1,\ 2 \text{ casos: } C,\ \eps \text{ (se descarta)}\\
+B \to b    &:\ m=0,\ b\\
+C \to CDE  &:\ m=2,\ 2^2=4 \text{ casos: } CDE,\ CE \text{ (quitar } D),\ DE \text{ (quitar } C),\ E \text{ (quitar ambos)}\\
+C \to \eps &:\ \text{se elimina}\\
+D \to A    &:\ m=1,\ 2 \text{ casos: } A,\ \eps \text{ (se descarta)}\\
+D \to B    &:\ m=1,\ 2 \text{ casos: } B,\ \eps \text{ (se descarta)}\\
+D \to ab   &:\ m=0,\ ab
+\end{align*}
+
+\textbf{Resultado a):}
+\begin{align*}
+S &\to aAa \mid aa \mid bBb \mid bb\\
+A &\to C \mid a\\
+B &\to C \mid b\\
+C &\to CDE \mid CE \mid DE \mid E\\
+D &\to A \mid B \mid ab
+\end{align*}
+
+\subsection*{b) Eliminar producciones unitarias}
+
+Producciones unitarias: $A \to C$, $B \to C$, $C \to E$, $D \to A$, $D \to B$.
+
+Pares unitarios:
+\begin{align*}
+S &: (S,S)\\
+A &: (A,A),\ (A,C),\ (A,E)\\
+B &: (B,B),\ (B,C),\ (B,E)\\
+C &: (C,C),\ (C,E)\\
+D &: (D,D),\ (D,A),\ (D,B),\ (D,C),\ (D,E)\\
+E &: (E,E)
+\end{align*}
+
+Producciones no unitarias de cada s\'imbolo:
+\begin{align*}
+S &: aAa,\ aa,\ bBb,\ bb & A &: a & B &: b\\
+C &: CDE,\ CE,\ DE & D &: ab & E &: \text{ninguna}
+\end{align*}
+
+Cada $X$ recibe las no unitarias de todos los $Y$ con $(X,Y)$:
+
+\textbf{Resultado b):}
+\begin{align*}
+S &\to aAa \mid aa \mid bBb \mid bb\\
+A &\to a \mid CDE \mid CE \mid DE\\
+B &\to b \mid CDE \mid CE \mid DE\\
+C &\to CDE \mid CE \mid DE\\
+D &\to ab \mid a \mid b \mid CDE \mid CE \mid DE
+\end{align*}
+($E$ no tiene producciones.)
+
+\subsection*{c) Eliminar s\'imbolos in\'utiles}
+
+\textbf{c.a) S\'imbolos que no producen.}
+\begin{itemize}[nosep]
+  \item Producen: $A$ ($A \to a$), $B$ ($B \to b$), $D$ ($D \to ab$) y $S$ ($S \to aa$).
+  \item $E$ no tiene producciones, no produce.
+  \item $C$: todos sus cuerpos ($CDE$, $CE$, $DE$) contienen $E$, no produce.
+\end{itemize}
+Se eliminan $C$ y $E$, y toda producci\'on que los contenga:
+\begin{align*}
+S &\to aAa \mid aa \mid bBb \mid bb\\
+A &\to a\\
+B &\to b\\
+D &\to ab \mid a \mid b
+\end{align*}
+
+\textbf{c.b) S\'imbolos no alcanzables.} Desde $S$ se alcanzan $A$ (por $aAa$) y $B$ (por $bBb$). $D$ no aparece en ning\'un cuerpo, no es alcanzable. Alcanzables $=\{S,A,B\}$. Se elimina $D$.
+
+\textbf{Resultado c):}
+\begin{align*}
+S &\to aAa \mid aa \mid bBb \mid bb\\
+A &\to a\\
+B &\to b
+\end{align*}
+
+\subsection*{d) Forma Normal de Chomsky}
+
+\textbf{Paso 1: terminales en cuerpos largos.} Se agregan $X_a \to a$ y $X_b \to b$:
+\begin{align*}
+aAa &\to X_a A X_a & aa &\to X_a X_a\\
+bBb &\to X_b B X_b & bb &\to X_b X_b
+\end{align*}
+($A \to a$ y $B \to b$ ya est\'an en CNF.)
+
+\textbf{Paso 2: cuerpos de longitud $>2$.} Se agregan $Y_1 \to A X_a$ y $Y_2 \to B X_b$:
+\[ X_a A X_a \to X_a Y_1 \qquad X_b B X_b \to X_b Y_2 \]
+
+\textbf{Resultado d) (CNF):}
+\begin{align*}
+S &\to X_a Y_1 \mid X_a X_a \mid X_b Y_2 \mid X_b X_b\\
+A &\to a\\
+B &\to b\\
+Y_1 &\to A X_a\\
+Y_2 &\to B X_b\\
+X_a &\to a\\
+X_b &\to b
+\end{align*}
+
+%=====================================================================
+\newpage
+\section*{Gram\'atica 3}
+\begin{align*}
+S &\to ASA \mid aB\\
+A &\to B \mid S\\
+B &\to b \mid \eps
+\end{align*}
+
+\subsection*{a) Eliminar producciones-$\eps$}
+
+\textbf{S\'imbolos anulables.}
+\begin{itemize}[nosep]
+  \item $B \to \eps$, entonces $B$ es anulable.
+  \item $A \to B$ y $B$ anulable, entonces $A$ es anulable.
+  \item $S$ no es anulable: $ASA$ contiene a $S$ y $aB$ contiene a $a$.
+\end{itemize}
+Anulables $=\{A,B\}$.
+
+\textbf{Nuevas producciones.}
+\begin{align*}
+S \to ASA &:\ m=2,\ 2^2=4 \text{ casos: } ASA,\ AS \text{ (quitar } A_3),\ SA \text{ (quitar } A_1),\ S \text{ (quitar ambas)}\\
+S \to aB  &:\ m=1,\ 2 \text{ casos: } aB,\ a\\
+A \to B   &:\ m=1,\ 2 \text{ casos: } B,\ \eps \text{ (se descarta)}\\
+A \to S   &:\ m=0,\ S\\
+B \to b   &:\ m=0,\ b\\
+B \to \eps &:\ \text{se elimina}
+\end{align*}
+
+\textbf{Resultado a):}
+\begin{align*}
+S &\to ASA \mid AS \mid SA \mid S \mid aB \mid a\\
+A &\to B \mid S\\
+B &\to b
+\end{align*}
+
+\subsection*{b) Eliminar producciones unitarias}
+
+Producciones unitarias: $S \to S$ (trivial), $A \to B$, $A \to S$.
+
+Pares unitarios:
+\begin{align*}
+S &: (S,S)\\
+A &: (A,A),\ (A,B),\ (A,S)\\
+B &: (B,B)
+\end{align*}
+
+Producciones no unitarias:
+\begin{align*}
+S &: ASA,\ AS,\ SA,\ aB,\ a & A &: \text{ninguna} & B &: b
+\end{align*}
+
+\textbf{Resultado b):}
+\begin{align*}
+S &\to ASA \mid AS \mid SA \mid aB \mid a\\
+A &\to b \mid ASA \mid AS \mid SA \mid aB \mid a\\
+B &\to b
+\end{align*}
+
+\subsection*{c) Eliminar s\'imbolos in\'utiles}
+
+\textbf{c.a) S\'imbolos que no producen.} $S \to a$, $A \to b$ y $B \to b$: los tres producen. No se elimina nada.
+
+\textbf{c.b) S\'imbolos no alcanzables.} Desde $S$: $S \Rightarrow ASA$ da $A$; $S \Rightarrow aB$ da $B$. Alcanzables $=\{S,A,B\}$. No se elimina nada.
+
+\textbf{Resultado c):} la misma gram\'atica de b).
+\begin{align*}
+S &\to ASA \mid AS \mid SA \mid aB \mid a\\
+A &\to b \mid ASA \mid AS \mid SA \mid aB \mid a\\
+B &\to b
+\end{align*}
+
+\subsection*{d) Forma Normal de Chomsky}
+
+\textbf{Paso 1: terminales en cuerpos largos.} Se agrega $X_a \to a$ y se sustituye en $aB$:
+\[ aB \to X_a B \]
+($a$ y $b$ solos ya est\'an en CNF.)
+
+\textbf{Paso 2: cuerpos de longitud $>2$.} Se agrega $Y_1 \to SA$ y se sustituye en $ASA$:
+\[ ASA \to A Y_1 \]
+
+El s\'imbolo inicial $S$ aparece en cuerpos, pero como $\eps \notin L(G)$ no hace falta agregar un nuevo s\'imbolo inicial.
+
+\textbf{Resultado d) (CNF):}
+\begin{align*}
+S &\to A Y_1 \mid AS \mid SA \mid X_a B \mid a\\
+A &\to b \mid A Y_1 \mid AS \mid SA \mid X_a B \mid a\\
+B &\to b\\
+Y_1 &\to SA\\
+X_a &\to a
+\end{align*}
+
+\end{document}

@@ -1,0 +1,20 @@
+# Proyecto 1 completo: tiene su propio repositorio
+proyecto/
+
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+.venv/
+
+# LaTeX (archivos auxiliares)
+*.aux
+*.log
+*.out
+*.toc
+*.synctex.gz
+
+# Sistema
+.DS_Store
+Thumbs.db
