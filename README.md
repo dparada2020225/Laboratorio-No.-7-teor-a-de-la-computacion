@@ -28,8 +28,7 @@ a mano de tres CFGs (Problema 2).
 │   ├── gramatica_con_error.txt       Gramática con errores, para probar la validación
 │   └── regex_automata/               Motor de regex del Proyecto 1
 └── ejercicio 2/
-    ├── ejercicio_2.pdf               Respuestas del Problema 2
-    └── ejercicio_2.tex               Código fuente LaTeX del PDF
+    └── ejercicio_2.pdf               Respuestas del Problema 2 (a mano, en hoja cuadriculada)
 ```
 
 ## Ejercicio 1: eliminación de producciones-ε
@@ -113,8 +112,8 @@ avisa.
 
 ## Ejercicio 2: CFGs a mano
 
-Carpeta `ejercicio 2/`. El PDF contiene, para cada una de las tres gramáticas, el
-procedimiento completo de:
+Carpeta `ejercicio 2/`. El PDF (escrito a mano en hoja cuadriculada) contiene, para cada
+una de las tres gramáticas, el procedimiento completo de:
 
 - a) eliminar producciones-ε,
 - b) eliminar producciones unitarias,
